@@ -18,6 +18,8 @@ module.exports = {
         // res.json(sitemap);
         if(sitemap._comment){
             // Yoast SEO Plugin Sitemaps
+            
+            /* !!!!!! Solve the case in which you have more than one /post-sitemap urls. For e.g, https://lifehack.org */
             let postSitemap = await axios.get(url+'/post-sitemap.xml')
             .then((response) => {
                 return JSON.parse(convert.xml2json(response.data, {compact: true, spaces: 4}));

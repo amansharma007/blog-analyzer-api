@@ -1,6 +1,6 @@
 # Blog Analyzer
 
-The basic idea for this app is to analyze yoru competition's blog articles, which will allow you to get an insight into how are they writing their articles and how much are they writing.
+The basic idea for this app is to analyze your competition's blog articles, which will allow you to get an insight into how are they writing their articles and how much are they writing.
 
 The intended features of this app are as follows:
 * Count the number of blogs on a website

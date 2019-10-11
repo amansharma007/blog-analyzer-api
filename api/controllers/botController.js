@@ -5,9 +5,12 @@ const convert = require('xml-js');
 module.exports = {
     getBlogList: async function (req, res) {
         let urlParam = req.query.url;
-        let url = (urlParam.charAt(urlParam.length - 1) === '/') ? urlParam.substring(0, urlParam.length - 1) : urlParam;
         let blogList = new Array();
         let postSitemap;
+        
+        // Removing the / from the url input.
+        let url = (urlParam.charAt(urlParam.length - 1) === '/') ? urlParam.substring(0, urlParam.length - 1) : urlParam;
+
         let sitemap = await axios.get(url + '/sitemap.xml')
             .then((response) => {
                 return JSON.parse(convert.xml2json(response.data, {
@@ -29,7 +32,9 @@ module.exports = {
                 }
             }
 
-            // Now there are two cases for the counter. First is when counter = 1 and the second is otherwise.
+            // There are two cases for the counter. 
+            // First is when there is only one /post-sitemap.xml link in yoast sitemap (Here, counter === 1)
+            // Second is when there is more than one /post-sitemap.xml (Here, counter > 1)
             if (counter === 1) {
                 postSitemap = await axios.get(url + '/post-sitemap.xml')
                     .then((response) => {
@@ -57,9 +62,8 @@ module.exports = {
                     blogList = blogList.concat(postSitemap.urlset.url.map(elem => elem.loc._text));
                 }
             }
-
         } else {
-            // Other Sitemaps
+            // Other types of Sitemaps
             blogList = sitemap.urlset.url.map(elem => elem.loc._text);
         }
 
